@@ -16,9 +16,9 @@ A full-stack web application that estimates mosquito activity risk for any city 
 
 ```
 ┌─────────────────┐     HTTP/JSON      ┌─────────────────┐
-│  React Frontend │ ◄────────────────► │  Flask Backend  │
-│  (Vite, port    │                    │  (port 5000)    │
-│   5173)         │                    │                 │
+│                 │ ◄────────────────► │                 │
+│ React Frontend  │                    │  Flask Backend  │
+│                 │                    │                 │
 └─────────────────┘                    └────────┬────────┘
                                               │
                     ┌─────────────────────────┼─────────────────────────┐
