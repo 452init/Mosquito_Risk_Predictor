@@ -3,48 +3,77 @@ Application configuration loaded from environment variables.
 """
 
 import os
+import sys
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
+def _normalize_database_url(url):
+    """Fix Render/Heroku postgres:// vs postgresql:// issue."""
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql://", 1)
+    return url
+
+
 class Config:
     """Base configuration."""
 
-    # Flask
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
 
-    # Database — Supabase PostgreSQL connection string
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        "postgresql://localhost:5432/mosquito_risk"
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(
+        os.environ.get("DATABASE_URL", "postgresql://localhost:5432/mosquito_risk")
     )
-    # Fix Render/Heroku postgres:// vs postgresql:// issue
-    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
-        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
-            "postgres://", "postgresql://", 1
-        )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+    }
 
-    # Weather AI API Key
     WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "")
 
-    # CORS — allowed frontend origins
-    FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+    FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173").rstrip("/")
+
+    MAX_CITY_NAME_LENGTH = 100
+    MAX_CONTENT_LENGTH = 16 * 1024  # 16 KB request body limit
 
 
 class DevelopmentConfig(Config):
     """Development configuration."""
+
     DEBUG = True
 
 
 class ProductionConfig(Config):
     """Production configuration."""
+
     DEBUG = False
 
 
-# Config selector
 config_by_name = {
     "development": DevelopmentConfig,
     "production": ProductionConfig,
 }
+
+
+def validate_production_config(app):
+    """Fail fast when required production secrets are missing."""
+    if not app.config.get("SECRET_KEY") or app.config["SECRET_KEY"] == (
+        "dev-secret-change-in-production"
+    ):
+        print("ERROR: SECRET_KEY must be set to a strong random value in production.", file=sys.stderr)
+        sys.exit(1)
+
+    if not app.config.get("WEATHER_API_KEY"):
+        print("ERROR: WEATHER_API_KEY must be set in production.", file=sys.stderr)
+        sys.exit(1)
+
+    if not app.config.get("FRONTEND_URL") or app.config["FRONTEND_URL"].startswith(
+        "http://localhost"
+    ):
+        print(
+            "ERROR: FRONTEND_URL must be set to your deployed frontend URL in production.",
+            file=sys.stderr,
+        )
+        sys.exit(1)

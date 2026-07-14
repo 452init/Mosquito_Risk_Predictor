@@ -6,7 +6,7 @@ GET  /api/history → Recent search history
 GET  /api/health  → Health check
 """
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, current_app, jsonify, request
 from app.extensions import db
 from app.models import RiskReport
 from app.services.geocoding import resolve_coordinates, GeocodingError
@@ -16,6 +16,7 @@ from app.services.risk import (
     determine_risk_category,
     generate_advice
 )
+from app.utils.validation import validate_city_name
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -41,12 +42,17 @@ def assess_risk():
     """
     # ---- Step 1: Get city name from request ----
     data = request.get_json(silent=True)
-    if not data or not data.get("city_name"):
-        return jsonify({
-            "error": "Missing required field: city_name"
-        }), 400
+    city_name, validation_error = validate_city_name(
+        data.get("city_name") if data else None,
+        max_length=current_app.config["MAX_CITY_NAME_LENGTH"],
+    )
+    if validation_error:
+        return jsonify({"error": validation_error}), 400
 
-    city_name = data["city_name"].strip()
+    if not current_app.config.get("WEATHER_API_KEY"):
+        return jsonify({
+            "error": "Weather service is not configured. Contact the administrator."
+        }), 503
 
     # ---- Step 2: Resolve coordinates ----
     try:
@@ -96,7 +102,7 @@ def assess_risk():
         db.session.commit()
     except Exception:
         db.session.rollback()
-        # Non-critical: don't fail the request if DB save fails
+        current_app.logger.exception("Failed to save risk report")
 
     # ---- Step 8: Return results ----
     return jsonify({
@@ -138,11 +144,12 @@ def get_history():
         return jsonify({
             "reports": [r.to_dict() for r in reports]
         }), 200
-    except Exception as e:
+    except Exception:
+        current_app.logger.exception("Failed to fetch history")
         return jsonify({
-            "error": f"Could not fetch history: {str(e)}",
+            "error": "Could not fetch history.",
             "reports": []
-        }), 200
+        }), 500
 
 
 def _summarize_forecast(forecast_data):
