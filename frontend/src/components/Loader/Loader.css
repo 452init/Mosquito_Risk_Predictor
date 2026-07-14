@@ -1,0 +1,64 @@
+/* ---- Loader Component ---- */
+
+.loader-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  padding: var(--space-16) var(--space-4);
+  animation: fadeIn var(--transition-slow) ease;
+}
+
+.loader-spinner {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.loader-ring {
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.loader-ring:nth-child(1) {
+  border-top-color: var(--color-accent);
+  animation-duration: 1.2s;
+}
+
+.loader-ring:nth-child(2) {
+  inset: 8px;
+  border-right-color: var(--color-risk-medium);
+  animation-duration: 1.6s;
+  animation-direction: reverse;
+}
+
+.loader-ring:nth-child(3) {
+  inset: 16px;
+  border-bottom-color: var(--color-risk-low);
+  animation-duration: 2s;
+}
+
+.loader-mosquito {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loader-text {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loader-subtext {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

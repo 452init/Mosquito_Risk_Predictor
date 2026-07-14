@@ -1,0 +1,286 @@
+/* ---- RiskDisplay Component ---- */
+
+.risk-display {
+  animation: fadeInUp 0.5s ease 0.2s both;
+}
+
+/* Risk Gauge */
+.risk-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-gauge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.15;
+  transition: background var(--transition-slow);
+}
+
+.risk-gauge.risk-low::before {
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-risk-low) 0%,
+    transparent 70%
+  );
+}
+
+.risk-gauge.risk-medium::before {
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-risk-medium) 0%,
+    transparent 70%
+  );
+}
+
+.risk-gauge.risk-high::before {
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-risk-high) 0%,
+    transparent 70%
+  );
+}
+
+.risk-gauge-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+}
+
+.risk-gauge-score {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.risk-gauge-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 800;
+  position: relative;
+  animation: scaleIn 0.5s ease;
+}
+
+.risk-gauge-circle::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  animation: spin 3s linear infinite;
+}
+
+.risk-gauge-circle.risk-low {
+  background: var(--color-risk-low-bg);
+  color: var(--color-risk-low);
+  box-shadow: 0 0 40px var(--color-risk-low-glow);
+}
+
+.risk-gauge-circle.risk-low::after {
+  border-top-color: var(--color-risk-low);
+}
+
+.risk-gauge-circle.risk-medium {
+  background: var(--color-risk-medium-bg);
+  color: var(--color-risk-medium);
+  box-shadow: 0 0 40px var(--color-risk-medium-glow);
+}
+
+.risk-gauge-circle.risk-medium::after {
+  border-top-color: var(--color-risk-medium);
+}
+
+.risk-gauge-circle.risk-high {
+  background: var(--color-risk-high-bg);
+  color: var(--color-risk-high);
+  box-shadow: 0 0 40px var(--color-risk-high-glow);
+}
+
+.risk-gauge-circle.risk-high::after {
+  border-top-color: var(--color-risk-high);
+}
+
+.risk-gauge-max {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+/* Risk Badge */
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.risk-badge.risk-low {
+  background: var(--color-risk-low-bg);
+  color: var(--color-risk-low);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.risk-badge.risk-medium {
+  background: var(--color-risk-medium-bg);
+  color: var(--color-risk-medium);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.risk-badge.risk-high {
+  background: var(--color-risk-high-bg);
+  color: var(--color-risk-high);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.risk-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.risk-badge.risk-low .risk-badge-dot {
+  background: var(--color-risk-low);
+}
+
+.risk-badge.risk-medium .risk-badge-dot {
+  background: var(--color-risk-medium);
+}
+
+.risk-badge.risk-high .risk-badge-dot {
+  background: var(--color-risk-high);
+}
+
+/* Reasons */
+.risk-reasons {
+  width: 100%;
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.risk-reasons-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.risk-reasons-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.risk-reason-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-glass);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  animation: slideInRight 0.4s ease both;
+}
+
+.risk-reason-item:nth-child(1) { animation-delay: 0.1s; }
+.risk-reason-item:nth-child(2) { animation-delay: 0.2s; }
+.risk-reason-item:nth-child(3) { animation-delay: 0.3s; }
+
+.risk-reason-icon {
+  flex-shrink: 0;
+  font-size: var(--text-lg);
+  margin-top: 1px;
+}
+
+.risk-no-reasons {
+  padding: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-style: italic;
+}
+
+/* Advice */
+.risk-advice {
+  width: 100%;
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 1px solid;
+  animation: fadeInUp 0.5s ease 0.3s both;
+}
+
+.risk-advice.risk-low {
+  background: var(--color-risk-low-bg);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.risk-advice.risk-medium {
+  background: var(--color-risk-medium-bg);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.risk-advice.risk-high {
+  background: var(--color-risk-high-bg);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.risk-advice-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.risk-advice-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.risk-advice-text {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}

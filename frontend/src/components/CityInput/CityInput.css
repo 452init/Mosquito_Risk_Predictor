@@ -1,0 +1,143 @@
+/* ---- CityInput Component ---- */
+
+.city-input-container {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease;
+}
+
+.city-input-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+
+.city-input-wrapper {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
+}
+
+.city-input-wrapper:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.city-input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-4) 0 var(--space-5);
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.city-input-wrapper:focus-within .city-input-icon {
+  color: var(--color-accent);
+}
+
+.city-input-field {
+  flex: 1;
+  padding: var(--space-4) var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  outline: none;
+  min-width: 0;
+}
+
+.city-input-field::placeholder {
+  color: var(--color-text-muted);
+  font-weight: 300;
+}
+
+.city-input-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  margin: var(--space-2);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.city-input-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-accent-hover), #a78bfa);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px var(--color-accent-glow);
+}
+
+.city-input-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.city-input-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.city-input-button-icon {
+  font-size: var(--text-lg);
+  transition: transform var(--transition-base);
+}
+
+.city-input-button:hover:not(:disabled) .city-input-button-icon {
+  transform: translateX(2px);
+}
+
+.city-input-error {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-risk-high-bg);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md);
+  color: #fca5a5;
+  font-size: var(--text-sm);
+  text-align: center;
+  animation: fadeIn var(--transition-base) ease;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .city-input-wrapper {
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+  }
+
+  .city-input-icon {
+    padding: var(--space-3) var(--space-4) 0;
+  }
+
+  .city-input-field {
+    padding: var(--space-3) var(--space-4);
+    text-align: center;
+  }
+
+  .city-input-button {
+    margin: var(--space-2);
+    justify-content: center;
+    border-radius: var(--radius-md);
+  }
+}
