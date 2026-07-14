@@ -20,15 +20,15 @@ A full-stack web application that estimates mosquito activity risk for any city 
 │ React Frontend  │                    │  Flask Backend  │
 │                 │                    │                 │
 └─────────────────┘                    └────────┬────────┘
-                                              │
-                    ┌─────────────────────────┼─────────────────────────┐
-                    │                         │                         │
-                    ▼                         ▼                         ▼
-           ┌───────────────┐        ┌─────────────────┐        ┌───────────────┐
-           │  Supabase     │        │  Weather AI API │        │  Open-Meteo   │
-           │  PostgreSQL   │        │  (current +     │        │  Geocoding    │
-           │  (history)    │        │   forecast)     │        │  (free)       │
-           └───────────────┘        └─────────────────┘        └───────────────┘
+                                                │
+                      ┌─────────────────────────┼─────────────────────────┐
+                      │                         │                         │
+                      ▼                         ▼                         ▼
+             ┌───────────────┐        ┌─────────────────┐        ┌───────────────┐
+             │  Supabase     │        │  Weather AI API │        │  Open-Meteo   │
+             │  PostgreSQL   │        │  (current +     │        │  Geocoding    │
+             │  (history)    │        │   forecast)     │        │  (free)       │
+             └───────────────┘        └─────────────────┘        └───────────────┘
 ```
 
 ### Request flow
