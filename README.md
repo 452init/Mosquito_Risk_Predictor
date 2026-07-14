@@ -1,6 +1,7 @@
 # Mosquito Risk Predictor
 
 A full-stack web application that estimates mosquito activity risk for any city based on real-time weather and forecast data. Enter a city name, and the app geocodes the location, fetches weather from the Weather AI API, computes a risk score (0–3), and returns actionable recommendations.
+The main aim of the application is to reduce the risk of getting Malaria through mosquito bites. The Malaria menace has been one of the biggest bottleneck in most African cities for a very long time. With the application in plac, such cases can be reduced through smart prevention measures.
 
 ## Features
 
